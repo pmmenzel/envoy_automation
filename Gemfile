@@ -12,7 +12,7 @@ gem 'databasedotcom-rails'
 
 gem 'sidekiq'
 
-# gem 'devise'
+gem 'devise'
 
 gem 'jquery-rails'
 gem 'turbolinks'
