@@ -14,6 +14,8 @@ gem 'sidekiq'
 
 gem 'devise'
 
+gem 'awesome_print'
+
 gem 'jquery-rails'
 gem 'turbolinks'
 gem 'jbuilder', '~> 2.0'
