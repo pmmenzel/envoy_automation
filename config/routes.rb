@@ -13,7 +13,7 @@ Rails.application.routes.draw do
 
   # You can have the root of your site routed with "root"
   devise_scope :user do
-    root to: "devise/sessions#new"
+    root to: "accounts#index"
   end
 
   # Example of regular route:
