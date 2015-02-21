@@ -1,11 +1,5 @@
 Rails.application.routes.draw do
-  get 'accounts/index'
-
-  get 'accounts/show'
-
-  get 'accounts/edit'
-
-  get 'accounts/update'
+  resources :accounts
 
   devise_for :users, path_names: {sign_in: 'login', sign_out: 'logout', sign_up: 'register'}
   # The priority is based upon order of creation: first created -> highest priority.
