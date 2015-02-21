@@ -1,2 +1,16 @@
-<h1>Accounts#edit</h1>
-<p>Find me in app/views/accounts/edit.html.erb</p>
+<h1>Editing Account  <%= @account.Name %> </h1>
+
+<%= form_for @account do |f| %>
+    <div class="field">
+        <%= f.label :CompanyName %><br />
+        <%= f.text_field :CompanyName %>
+    </div>
+    <div class="actions">
+        <%= f.submit %>
+    </div>
+<% end %>
+
+<br/>
+
+<%= link_to 'Show', @account %> |
+<%= link_to 'Back', accounts_path %>

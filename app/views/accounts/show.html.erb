@@ -1,2 +1,4 @@
-<h1>Accounts#show</h1>
-<p>Find me in app/views/accounts/show.html.erb</p>
+<h1>Account:  <%= @account.Name %></h1>
+<% @account.attributes.each do |a| %>
+<%= a[0] %>: <%= a[1] %><br>
+<% end %>
