@@ -1,18 +1,17 @@
 class RegistrationsController < Devise::RegistrationsController
-	# after_filter :test, only: [:create]
+	after_filter :salesforce, only: [:create]
 	include ApplicationHelper
 
 
-  protected
+	protected
 
 
-  def test
-  	resource.persisted?
-  	p resource.name
-  end
+	def salesforce
+		if resource.persisted?
+			if !user_exists?
+				sf_create_contact_and_oppoortunity(resource)
+			end
+		end
+	end
 
-
-  def after_sign_up_path_for(resource)
-  	root_path
-  end
 end
