@@ -1,12 +1,12 @@
 <h1>Accounts</h1>
 <ol>
-	<% @accounts.each do |a| %>
 	<ol>
+	<% @accounts.each do |a| %>
 		<li>
 		<%= link_to("#{a.Name}", a ) %>
 		</li>
-	</ol>
 	<% end %>
+	</ol>
 </ol>
 
 <%= link_to "Login", user_session_path, :method => "get" %>
