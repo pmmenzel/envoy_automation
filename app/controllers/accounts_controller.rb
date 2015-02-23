@@ -12,16 +12,9 @@ class AccountsController < ApplicationController
   end
 
   def show
-  	@account = Account.find(params[:id])
+    @account = Account.find(params[:id])
+    @contacts = Contact.all
+    @opportunities = Opportunity.all
   end
 
-  def edit
-  	@account = Account.find(params[:id])
-  end
-
-  def update
-  	@account = Account.find(params[:id])
-  	@account.update_attributes(params[:account])
-  	render "index"
-  end
 end

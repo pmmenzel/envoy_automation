@@ -1,4 +1,22 @@
 <h1>Account:  <%= @account.Name %></h1>
-<% @account.attributes.each do |a| %>
-<%= a[0] %>: <%= a[1] %><br>
+<h2>Account Contacts: </h2>
+<% @contacts.each do |c| %>
+	<% if c.AccountId == @account.Id %>
+		<ul>
+			<li>
+				<%= c.Name %> - <%= c.Phone %>
+			</li>
+		</ul>
+	<% end %>
+<% end %>
+
+<h2>Account Opportunities</h2>
+<% @opportunities.each do |o| %>
+	<% if o.AccountId == @account.Id %>
+		<ul>
+			<li>
+				<%= o.Name %>
+			</li>
+		</ul>
+	<% end %>
 <% end %>

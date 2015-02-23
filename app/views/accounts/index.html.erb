@@ -1,9 +1,11 @@
 <h1>Accounts</h1>
 <ol>
 	<% @accounts.each do |a| %>
-	<li>
+	<ol>
+		<li>
 		<%= link_to("#{a.Name}", a ) %>
-	</li>
+		</li>
+	</ol>
 	<% end %>
 </ol>
 
