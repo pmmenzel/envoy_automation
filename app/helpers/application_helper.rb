@@ -26,72 +26,45 @@ module ApplicationHelper
 	end
 
 	def cb_lookup
-		# user = User.find_last
-		cb_data = Clearbit::Person.find(email: resource.email)
+		cb_data = Clearbit::PersonCompany.find(email: resource.email)
 
-		if cb_data && !cb_data.pending? # === this might be the reason derek wasn't working
-
-			if (cb_data && cb_data.company.name) != nil
-				cb_data
-			else
-				cb_data = Clearbit::Company[domain: resource.email.match(/@([^.].+)/).to_s[1..-1]]
-			end
+		if cb_data && !cb_data.pending?
+			cb_data
 		end
-
 	end
 
 	def sf_lookup(cb_data)
 		#checks if its person's data or company data then looks up company
-		if is_person_data?(cb_data)
-			company = cb_data.company
-		else
-			company = cb_data
-		end
-
-		Account.find_by_Name(company.Name)
-	end
-
-	def is_person_data?(cb_data)
-		cb_data.company != nil
+		Account.find_by_Name(cb_data.company.Name)
 	end
 
 	# When this is called it also creates a contact & opportunity
 	def create_sf_account(cb_data)
-		# user = User.find_last
-		if is_person_data?(cb_data)
-			company = cb_data.company
-		else
-			company = cb_data
-		end
-
 		account = Account.new
-		account.Name = company.name
-		account.BillingCity = company.location
-		account.NumberOfEmployees = company.employees
+		account.Name = cb_data.company.name
+		account.BillingCity = cb_data.company.location
+		account.NumberOfEmployees = cb_data.company.employees
 		account.Phone = resource.phone
 		account.OwnerId = OWNER_ID
 		account.save
 	end
 
 	def create_sf_contact(cb_data)
-		# company = Account.find_by_Name(cb_data.company.name)
-		# === if company data, then should only fill in information we have
 		company = sf_lookup(cb_data)
-		# user = User.find_last
 		contact = Contact.new
 
-		if is_person_data?(cb_data)
-			contact.LastName = cb_data.name.familyName
-			contact.FirstName = cb_data.name.givenName
-			contact.Name = cb_data.name.fullName
-			contact.Email = cb_data.email
-			contact.MailingCity = cb_data.location
+		if cb_data.person
+			contact.LastName = cb_data.person.name.familyName
+			contact.FirstName = cb_data.person.name.givenName
+			contact.Name = cb_data.person.name.fullName
+			contact.Email = cb_data.person.email
+			contact.MailingCity = cb_data.person.location
 		else
 			contact.LastName = resource.name.split(' ')[-1]
 			contact.FirstName = resource.name.split(' ')[0]
 			contact.Name = resource.name
 			contact.Email = resource.email
-			contact.MailingCity = cb_data.location
+			contact.MailingCity = company.BillingCity
 		end
 		contact.Phone = resource.phone
 		contact.Account = company.Name
@@ -102,7 +75,6 @@ module ApplicationHelper
 	end
 
 	def create_sf_opportunity(cb_data)
-		# user = User.find_last
 		company = sf_lookup(cb_data)
 		opportunity = Opportunity.new
 		opportunity.Name = "#{company.Name} - #{resource.name}"
