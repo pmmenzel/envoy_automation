@@ -18,9 +18,8 @@ module ApplicationHelper
 	private
 
 	OWNER_ID = Account.first.OwnerId
-	# if users exists on sf, then no need to check anything else as the company would also exist considering the domain name
+
 	def user_exists?
-		# new_contact = User.find_last
 		found = Contact.find_by_Email(resource.email)
 		found != nil
 	end
@@ -34,11 +33,9 @@ module ApplicationHelper
 	end
 
 	def sf_lookup(cb_data)
-		#checks if its person's data or company data then looks up company
 		Account.find_by_Name(cb_data.company.Name)
 	end
 
-	# When this is called it also creates a contact & opportunity
 	def create_sf_account(cb_data)
 		account = Account.new
 		account.Name = cb_data.company.name
